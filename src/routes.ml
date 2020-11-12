@@ -171,24 +171,6 @@ let rec route_pattern : type a b. (a, b) path -> PatternTrie.Key.t list = functi
   | Conv (_, fmt) -> PatternTrie.Key.Capture :: route_pattern fmt
 ;;
 
-let pp_path' { slash_kind; path } =
-  let trail =
-    match slash_kind with
-    | NoSlash -> []
-    | Trailing -> [ "" ]
-  in
-  let rec aux : type a b. (a, b) path -> string list = function
-    | End -> trail
-    | Wildcard -> [ ":wildcard" ]
-    | Match (w, fmt) -> w :: aux fmt
-    | Conv ({ label; _ }, fmt) -> label :: aux fmt
-  in
-  aux path
-;;
-
-let pp_target fmt t = Format.fprintf fmt "%s" ("/" ^ String.concat "/" @@ pp_path' t)
-let pp_route fmt (Route (p, _, _)) = pp_target fmt p
-
 let ksprintf' k { slash_kind; path } =
   let trail =
     match slash_kind with
