@@ -189,26 +189,6 @@ val ksprintf : (string -> 'b) -> ('a, 'b) target -> 'a
     of formatting the pattern into a URI path. *)
 val sprintf : ('a, string) target -> 'a
 
-(** [pp_target] can be used to pretty-print a sequence of path params.
-    This can be useful to get a human readable output that indicates
-    the kind of pattern that a route will match. When creating a custom
-    pattern matcher using [pattern], a string label needs to be provided.
-    This label is used by [pp_target] when preparing the pretty-print output.
-
-    Example:
-    {[
-      let r () = Routes.(s "foo" / int / s "add" / bool);;
-      Format.asprintf "%a" Routes.pp_target r;;
-      -: "foo/:int/add/:bool"
-    ]}
-
-    @since 0.8.0 *)
-val pp_target : Format.formatter -> ('a, 'b) target -> unit
-
-(** [pp_route] is similar to [pp_target], except it takes a route (combination of path sequence
-    and a handler) as input, instead of just a path sequence. *)
-val pp_route : Format.formatter -> 'a route -> unit
-
 (** [add_route] takes a route and a router as input, and returns a new router
     which contains the route provided as input.
 
